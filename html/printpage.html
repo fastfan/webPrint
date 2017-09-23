@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>打印页面</title>
+    <link href="../css/typePage.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="mainbody"></div>
+<div style="text-align: center;margin: 20px auto">
+    <button id="clicktotype">点击打印</button>
+</div>
+</body>
+<script type="text/javascript" src="../js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../js/scalelable.js"></script>
+<script type="text/javascript" src="../js/jquery.jqprint-0.3.js"></script>
+<script type="text/javascript">
+    var printId = location.search.substr(location.search.indexOf('=')+1).split(',');
+    var stuList = JSON.parse(localStorage.getItem('stuList'));
+    var posInfo = scalelable.getInfo();
+    var stage = document.getElementsByClassName('mainbody');
+    printId.forEach(function(id,index){
+        var item = stuList[id]
+        var typecontent = document.createElement('div');
+        typecontent.className = 'typecontent';
+        for(var key in item){
+            if(key=='expressCom'){
+                changeBgByName(item['expressCom']);
+            }
+            else if(key=='receiverSection'){
+                var div = document.createElement('div');
+                div.className = 'absdiv';
+                div.innerText = item[key];
+                div.style.cssText = posInfo.id3.cssText;
+                typecontent.appendChild(div);
+            }else if(key=='id'){
+
+            }
+            else{
+                var div = document.createElement('div');
+                div.className = 'absdiv';
+                div.innerText = item[key];
+                switch(key){
+                    case 'receiver':
+                        div.style.cssText = posInfo.id0.cssText;
+                        break;
+                    case 'receiverAdress':
+                        div.style.cssText = posInfo.id1.cssText;
+                        break;
+                    case 'receiverPhone':
+                        div.style.cssText = posInfo.id2.cssText;
+                        break;
+                    case 'senderAddress':
+                        div.style.cssText = posInfo.id10.cssText;
+                        break;
+                    case 'senderName':
+                        div.style.cssText = posInfo.id6.cssText;
+                        break;
+                    case 'senderPhone':
+                        div.style.cssText = posInfo.id11.cssText;
+                        break;
+                    case 'senderSection':
+                        div.style.cssText = posInfo.id7.cssText;
+                        break;
+                }
+                typecontent.appendChild(div);
+            }
+        }
+        document.getElementsByClassName('mainbody')[0].appendChild(typecontent);
+    });
+    function changeBgByName(name){
+        switch(name){
+            case '顺丰':
+                $(".typecontent").css('background-image','url("../image/bg-shunfeng.jpg") no-repeat center center');
+                break;
+            case '速尔':
+                $(".typecontent").css('background-image','url("../image/bg-suer.jpg") no-repeat center center');
+                break;
+            case '圆通':
+                $(".typecontent").css('background-image','url("../image/bg-yuantong.jpg") no-repeat center center');
+                break;
+            case '韵达':
+                $(".typecontent").css('background-image','url("../image/bg-yunda.jpg") no-repeat center center');
+                break;
+            case 'EMS':
+                $(".typecontent").css('background-image','url("../image/bg-EMS.jpg") no-repeat center center');
+                break;
+            default:
+                break;
+        }
+    }
+    $('#clicktotype').click(function(){
+        $(".mainbody").jqprint();
+        //   myPrint(document.getElementsByClassName('typecontent')[0])
+    });
+</script>
+</html>

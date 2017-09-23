@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Typepage2</title>
+	<style type="text/css">
+		.info{
+			font-size: 18px;
+			font-weight: bold;
+			line-height: 46px;
+			background-color: #fff;
+			padding-left: 20px;
+			width: 1180px;
+			margin: 0 auto;
+		}
+		.info_module{
+			width: 1180px;
+			margin: 0 auto;
+			background-color: #fff;
+			margin-top: 100px;
+			padding-left: 20px;
+			padding-top: 1px;
+		}
+		label{
+			float: left;
+			width: 100px;
+			text-align: right;
+			margin-right: 20px;
+		}
+		.fright{
+			float: right;
+		}
+		.form_group{
+			overflow: hidden;
+			clear: both;
+		}
+		#sendbtn{
+			line-height: 30px;
+			width: 72px;
+			height: 30px;
+			margin-left: 120px;
+			margin-top: 30px;
+			margin-bottom: 30px;
+		}
+	</style>
+</head>
+<link href="css/typePage.css" rel="stylesheet" type="text/css">
+<body bgcolor="f6f6f6">
+<div class="info_module">
+	<form id="senders">
+		<div class="form_group" style="margin-top: 20px;">
+			<label for="senderName" >发货人： </label>
+			<div class="fright" style="float: left;">
+				<input type="text" name="senderName" id="senderName" value="abc" />
+			</div>
+		</div>
+		<div class="form_group" style="margin-top: 20px;">
+			<label for="senderSection" >区域： </label>
+			<div class="fright" style="float: left;">
+				<input type="text" name="senderSection" id="senderSection" value="abc" />
+			</div>
+		</div>
+		<div class="form_group" style="margin-top: 20px;">
+			<label for="senderAddress" >地址： </label>
+			<div class="fright" style="float: left;">
+				<input type="text" name="senderAddress" id="senderAddress" value="abc" />
+			</div>
+		</div>
+		<div class="form_group" style="margin-top: 20px;">
+			<label for="senderPhone" >电话： </label>
+			<div class="fright" style="float: left;">
+				<input type="text" name="senderPhone" id="senderPhone" value="abc" />
+			</div>
+		</div>
+		<div class="form_group" style="margin-top: 20px;">
+			<label for="receiver" >收货人： </label>
+			<div class="fright" style="float: left;">
+				<input type="text" name="receiver" id="receiver" value="" />
+			</div>
+		</div>
+		<div class="form_group" style="margin-top: 20px;">
+			<label for="receiverSection" >区域2： </label>
+			<div class="fright" style="float: left;">
+				<input type="text" name="receiverSection" id="receiverSection" value="" />
+			</div>
+		</div>
+		<div class="form_group" style="margin-top: 20px;">
+			<label for="receiverAdress" >地址2： </label>
+			<div class="fright" style="float: left;">
+				<input type="text" name="receiverAdress" id="receiverAdress" value="" />
+			</div>
+		</div>
+		<div class="form_group" style="margin-top: 20px;">
+			<label for="receiverPhone" >电话2： </label>
+			<div class="fright" style="float: left;">
+				<input type="text" name="receiverPhone" id="receiverPhone" value="" />
+			</div>
+		</div>
+		<div class="form_group" style="margin-top: 20px;">
+			<label for="receiverPhone" >快递： </label>
+			<div class="fright" style="float: left;">
+				<select class="expressCompany">
+					<option>申通</option>
+					<option>顺丰</option>
+					<option>速尔</option>
+					<option>圆通</option>
+					<option>韵达</option>
+					<option>EMS</option>
+				</select>
+			</div>
+		</div>
+		<input type="submit" name="sendbtn" id="sendbtn" value="提交" />
+	</form>
+</div>
+<script>
+
+	function Student(senderName,senderSection,senderAddress,senderPhone,receiver,receiverSection,receiverAdress,receiverPhone,id,expressCom){
+		this.senderName = senderName;
+		this.senderSection = senderSection;
+		this.senderAddress = senderAddress;
+		this.senderPhone = senderPhone;
+		this.receiver = receiver;
+		this.receiverSection = receiverSection;
+		this.receiverAdress = receiverAdress;
+		this.receiverPhone = receiverPhone;
+		this.id = id;
+		this.expressCom = expressCom;
+	}
+	var stuList = getStuList();
+	//表单
+	var senders = document.getElementById('senders');
+	//所有栏目
+	var form_group = senders.getElementsByTagName('input');
+	var divList = senders.children;
+	var expressCompany = document.getElementsByClassName('expressCompany')[0];
+	console.log(divList);
+	//表单提交事件
+	senders.onsubmit = function(){
+		stuList.push(new Student(form_group[0].value,form_group[1].value,form_group[2].value,form_group[3].value,form_group[4].value,form_group[5].value,form_group[6].value,form_group[7].value,stuList.length+1,expressCompany.value));
+		localStorage.setItem('stuList',JSON.stringify(stuList));
+		window.open('plantytype.html','_blank');
+	}
+	//获取用户集合
+	function getStuList(){
+		var list = localStorage.getItem('stuList');
+		if(list != null){
+			return JSON.parse(list);
+		}else{
+			return new Array();
+		}
+	}
+</script>
+
+</body>
+</html>

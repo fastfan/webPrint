@@ -1,0 +1,87 @@
+@charset "utf-8";
+*{
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+}
+.mainbody{
+    width: 1000px;
+    margin: 0 auto;
+    background: #fff;
+    position: relative;
+}
+.itembar{
+    /* height:200px; */
+    border-bottom: 1px solid #f6f6f6;
+    /* display: flex; */
+    justify-content: space-around;
+    align-items: center;
+    background: #eee;
+    padding: 10px;
+}
+.item{
+    /* width: 90px; */
+    /* height: 30px; */
+    padding: 5px 15px;
+    border: 1px solid #ddd;
+    display: inline-block;
+    overflow:hidden;
+    background: #fff;
+    position: relative;
+    margin: 0 4px;
+}
+
+.rebackthis {
+    padding: 3px 5px;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 99;
+    display: none;
+}
+.item:not(.on)::after{
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.infowrite {
+    border: none;
+    outline: none;
+    width:100%;
+    height:100%;
+    display: none;
+    /*pointer-events: none;*/
+}
+/*.infowrite.on{
+    pointer-events: auto;
+}*/
+.item:hover{
+    cursor: move;
+}
+.absolute{
+    position: absolute;
+    resize:both;
+}
+.item.absolute:hover{
+    background: none;
+    border: 1px dashed #f40;
+}
+.item.absolute .rebackthis{
+    display: block;
+}
+.typecontent{
+    position: relative;
+    width: 1000px;
+    margin: 0 auto;
+    background: url("../image/bg-shentong.jpg") no-repeat center center;
+    height: 512px;
+}
+.absdiv{
+    position: absolute;
+    padding: 3px 5px;
+}

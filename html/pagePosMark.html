@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Typepage</title>
+</head>
+<link href="../css/typePage.css" rel="stylesheet" type="text/css">
+<body bgcolor="f6f6f6">
+<div class="mainbody">
+    <div class="itembar"></div>
+    <div class="typecontent"  ondrop="drop(event)" ondragstart="drag(event)" ondragover="allowDrop(event)"></div>
+    <button id="clicktotype">打印</button>
+    <button id="saveInfo">保存模板</button>
+</div>
+</body>
+<script type="text/javascript" src="../js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../js/scalelable.js"></script>
+<script type="text/javascript" src="../js/jquery.jqprint-0.3.js"></script>
+<script type="text/javascript">
+    function allowDrop(ev)
+    {
+        ev.preventDefault();
+    }
+
+    function drag(ev)
+    {
+        ev.dataTransfer.setData("itemId",ev.target.id);
+    }
+
+    /*function ondraging(e){
+        var x= e.pageX;
+        var y= e.pageY;
+        //drag事件最后一刻，无法读取鼠标的坐标，pageX和pageY都变为0
+        if(x==0 && y==0){
+            return; //不处理拖动最后一刻X和Y都为0的情形
+        }
+        console.log(e);
+        x-=offsetX;
+        y-=offsetY;
+
+        e.currentTarget.style.left=x+'px';
+        e.currentTarget.style.top=y+'px';
+    }*/
+
+    function drop(ev)
+    {
+        ev.preventDefault();
+        if(ev.target!=document.getElementsByClassName("typecontent")[0]) return;
+        var data=ev.dataTransfer.getData("itemId");
+        try{
+            ev.target.appendChild(document.getElementById(data));
+        }catch(error){
+
+        }
+        if(document.getElementById(data).className.indexOf('absolute')==-1) document.getElementById(data).className +=' absolute';
+        var arr = document.getElementById(data).getAttribute('offset').split(',');
+        $(document.getElementById(data)).css({"left":ev.offsetX-parseInt(arr[0])-1+'px',"top":ev.offsetY-parseInt(arr[1])-1+'px'});
+    }
+
+    function mousedownhandle(evt){
+        evt.currentTarget.setAttribute('offset',evt.offsetX+','+evt.offsetY);
+    }
+
+    $(function(){
+        var _html='',_contenthtml = '';
+        var data = scalelable.getInfo();
+        for(var key in scalelable.lablename){
+            if(data!=null&&data[key].className.indexOf('absolute')!=-1) _contenthtml+= scalelable.render(scalelable.lablename[key],data[key]);
+            else _html+= scalelable.render(scalelable.lablename[key]);
+        }
+        $('.itembar').html(_html);
+        $('.typecontent').html(_contenthtml);
+        $('.item').each(function(index,item){
+            var _scalelable = new scalelable(item);
+            scalelable.listArr.push(_scalelable);
+        });
+        $('#clicktotype').click(function(){
+            $(".typecontent").jqprint();
+         //   myPrint(document.getElementsByClassName('typecontent')[0])
+        });
+        $('#saveInfo').click(function(){
+            scalelable.listArr.forEach(function(item){
+                item.saveInfo();
+            });
+             scalelable.saveInfo();
+        });
+        $('.item').on('click','.rebackthis',function(){
+            $(this).parent('.item').removeClass('absolute').attr('style','').appendTo($('.itembar'));
+        })
+        /*$(".typecontent").on('drag','.item',function(e){
+            ondraging(e);
+        })*/
+    })
+
+</script>
+</html>
